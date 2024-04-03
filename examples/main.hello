@@ -1,0 +1,3 @@
+var name = "Himindu Kularathne"
+
+print(name);
