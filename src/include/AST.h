@@ -3,38 +3,32 @@
 #include <stdlib.h>
 typedef struct AST_STRUCT{
     enum {
-
-        AST_VARIABLE_DECLARATION,
-        AST_VARIABLE,
-        AST_FUNCTION_CALL,
-        AST_STRING,
-        AST_COMPOUND
+        LET,
+        ID,
+        WHERE,
+        REC,
+        EQ,
+        INT,
+        ARROW,
+        PLUS,
+        COMMA,
+        PRINT,
+        LPAREN,
+        RPAREN,
+        SEMICOLON
     }type;
 
-    //Ast variable definition
 
-    char* variable_definition_variable_name;
-    struct AST_STRUCT* variable_definition_value;
-
-    //Ast variable
-    char* variable_name;
-    
-
-    //Ast function call
-    char* function_call_name;
-    struct AST_STRUCT** function_call_arguments;
-    size_t function_call_arguments_size;
-
-
-    //Ast string
-    char* string_value;
-
-    //Ast compound
-    struct AST_STRUCT** compound_value;
-    size_t compound_size;
+    char* label;
+    char* value;
+    struct AST_STRUCT** children;   
+    int number_of_children;
+   
 
 }AST_T;
 
 AST_T* init_ast(int type);
 
+AST_T* createNode(const char* label, const char* value, int num_children);
+void print_ast(AST_T* ast, int level);
 #endif

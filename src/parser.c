@@ -1,52 +1,104 @@
-#include "include/parser.h"
+#include "./include/parser.h"
+#include <stdbool.h>
 
-
-
-parser_T* init_parser(lexer_T* lexer){
-    parser_T* parser = calloc(1, sizeof(struct PARSER_STRUCT));
-    parser->lexer = lexer;
-    parser->current_token = lexer_get_next_token(lexer);
-    return parser;
+token_T* get_next_token(lexer_T* lexer){
+    return lexer_get_next_token(lexer);
 
 }
-void parser_eat(parser_T* parser, int token_type){
-    if(parser->current_token->type == token_type){
-        parser->current_token = lexer_get_next_token(parser->lexer);
-    }else{
-        printf("Unexpected token: %s with type %d\n", parser->current_token->value, parser->current_token->type);
-        exit(1);
+
+bool match(token_T* expected_type, parser_T* parser){
+    token_T* current_token = parser->current_token;
+    if(current_token->type == expected_type->type){
+        free(current_token->value);
+        free(current_token);
+        parser->current_token = get_next_token(parser->lexer);
+        return true;
     }
+    printf("Syntax error: Expected %s but got %s\n", expected_type->value, current_token->value);
+    return false;
 }
-AST_T* parser_parse(parser_T* parser){
-    return parser_parse_statements(parser);
 
-}
-AST_T* parser_parse_statement(parser_T* parser){
-
-}  
-AST_T* parser_parse_statements(parser_T* parser){
-
-    AST_T* compound = init_ast(AST_COMPOUND);
-    compound->compound_value = calloc(1, sizeof(struct AST_STRUCT));
-    AST_T* ast_statement = parser_parse_statement(parser);
-    compound->compound_value[0] = ast_statement;
+/*
+E -> ’let’ D ’in’ E => ’let’
+-> ’fn’ Vb+ ’.’ E => ’lambda’
+-> Ew;
+*/
+void E(parser_T* parser){
     
-}
-AST_T* parser_parse_expression(parser_T* parser){
+
+    
 
 }
-AST_T* parser_parse_factor(parser_T* parser){
+void Ew(parser_T* parser){
+    token_T* current_token = parser->current_token;
+    if (current_token->type == OPERATOR) {
+        match(current_token, parser->lexer);
+        Ew(parser);
+    } else if (current_token->type == PUNCTUATION) {
+        match(current_token, parser->lexer);
+        E(parser);
+        match(current_token, parser->lexer);
+    } else {
+        printf("Syntax error in Ew()\n");
+    }
+
 
 }
-AST_T* parser_parse_term(parser_T* parser){
+void T(){
 
 }
-AST_T* parser_parse_function_call(parser_T* parser){
+void Ta(){
+
 
 }
-AST_T* parser_parse_variable(parser_T* parser){
+void Tc(){
 
 }
-AST_T* parser_parse_string(parser_T* parser){
+void B(){
+
+}
+void Bt(){
+
+}
+void Bs(){
+
+}
+void Bp(){
+
+}
+void A(){
+
+}
+void At(){
+
+}
+void Ap(){
+
+}
+void R(){
+
+}
+void Rn(){
+
+}
+void D(){
+
+}
+void Da(){
+
+}
+void Dr(){
+
+}
+void Db(){
+
+}
+void Vb_plus(){
+
+}
+void Vb(){
+
+}
+void Vl(){
 
 }

@@ -3,17 +3,16 @@
 #include "include/lexer.h"
 
 
+
 int main(int args, char* argv[]) {
     lexer_T* lexer = init_lexer(
-        "var name = \"Himindu Kularathne\";\n"
-        "print(name);\n"
+        "// this is a comment\n"
+        "let Sum(A) = Psum (A,Order A )\n"
+            "where rec Psum (T,N) = N eq 0 -> 0\n"
+                "| Psum(T,N-1)+T N\n"
+        "in Print ( Sum (1,2,3,4,5) )\n"
     );
    
-
-    token_T* token = lexer_get_next_token(lexer);
-    while(token->type != TOKEN_EOF){
-        printf("TOKEN(%d, %s)\n", token->type, token->value);
-        token = lexer_get_next_token(lexer);
-    }
-    return 0;
+    print_tokens(lexer);
+    
 }

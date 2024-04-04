@@ -4,13 +4,13 @@ typedef struct TOKEN_STRUCT
 {
     enum
     {
-        TOKEN_ID,
-       TOKEN_EQUALS,
-       TOKEN_STRING,
-         TOKEN_SEMI,
-         TOKEN_LPAREN,
-            TOKEN_RPAREN,
-            TOKEN_EOF
+        IDENTIFIER,
+        INTEGER,
+        OPERATOR,
+        STRING,
+        DELETE,
+        PUNCTUATION
+    
     } type;
     char *value;
 } token_T;
