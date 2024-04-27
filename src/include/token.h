@@ -10,7 +10,6 @@ typedef struct TOKEN_STRUCT
         STRING,
         DELETE,
         PUNCTUATION
-    
     } type;
     char *value;
 } token_T;

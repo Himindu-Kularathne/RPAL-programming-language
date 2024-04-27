@@ -28,7 +28,6 @@ typedef struct AST_STRUCT{
 }AST_T;
 
 AST_T* init_ast(int type);
-
 AST_T* createNode(const char* label, const char* value, int num_children);
 void print_ast(AST_T* ast, int level);
 #endif
