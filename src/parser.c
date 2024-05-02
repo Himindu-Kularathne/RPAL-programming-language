@@ -35,14 +35,14 @@ E -> ’let’ D ’in’ E => ’let’
 */
 void E(parser_T* parser){
     if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
         D(parser);
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
         E(parser);
     } else if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
         Vb(parser);
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         E(parser);
     } else {
         Ew(parser);
@@ -56,7 +56,7 @@ Ew -> T ’where’ Dr => ’where’
 void Ew(parser_T* parser){
     T(parser);
     if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
         Dr(parser);
     } else {
         T(parser);
@@ -71,7 +71,7 @@ T -> Ta ( ’,’ Ta )+ => ’tau’
 void T(parser_T* parser){
     Ta(parser);
     if (parser->current_token->type == PUNCTUATION){
-        match(PUNCTUATION, parser);
+        match(parser->current_token, parser);
         Ta(parser);
     } else {
         Ta(parser);
@@ -86,7 +86,7 @@ Ta -> Ta ’aug’ Tc => ’aug’
 void Ta(parser_T* parser){
     Tc(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         Tc(parser);
     } else {
         Tc(parser);
@@ -101,9 +101,9 @@ Tc -> B ’->’ Tc ’|’ Tc => ’->’
 void Tc(parser_T* parser){
     B(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         Tc(parser);
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         Tc(parser);
     } else {
         B(parser);
@@ -119,7 +119,7 @@ B ->B’or’ Bt => ’or’
 void B(parser_T* parser){
     Bt(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         Bt(parser);
     } else {
         Bt(parser);
@@ -134,7 +134,7 @@ Bt -> Bt ’&’ Bs => ’&’
 void Bt(parser_T* parser){
     Bs(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         Bs(parser);
     } else {
         Bs(parser);
@@ -147,7 +147,7 @@ Bs -> ’not’ Bp => ’not’
 */
 void Bs(parser_T* parser){
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         Bp(parser);
     } else {
         Bp(parser);
@@ -166,7 +166,7 @@ Bp -> A ’gr’ A => ’gr’
 void Bp(parser_T* parser){
     A(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         A(parser);
     } else {
         A(parser);
@@ -184,7 +184,7 @@ A ->A’+’ At => ’+’
 void A(parser_T* parser){
     At(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         At(parser);
     } else {
         At(parser);
@@ -199,7 +199,7 @@ At -> At ’*’ Af => ’*’
 void At(parser_T* parser){
     Af(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         Af(parser);
     } else {
         Af(parser);
@@ -214,7 +214,7 @@ Af -> Ap ’**’ Af => ’**’
 void Af(parser_T* parser){
     Ap(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         Af(parser);
     } else {
         Ap(parser);
@@ -229,8 +229,8 @@ Ap -> Ap ’@’ ’<IDENTIFIER>’ R => ’@’
 void Ap(parser_T* parser){
     R(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
+        match(parser->current_token, parser);
         R(parser);
     } else {
         R(parser);
@@ -250,23 +250,23 @@ Rn -> ’<IDENTIFIER>’
 */
 void Rn(parser_T* parser){
     if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
     } else if (parser->current_token->type == INTEGER){
-        match(INTEGER, parser);
+        match(parser->current_token, parser);
     } else if (parser->current_token->type == STRING){
-        match(STRING, parser);
+        match(parser->current_token, parser);
     } else if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
     } else if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
     } else if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
     } else if (parser->current_token->type == PUNCTUATION){
-        match(PUNCTUATION, parser);
+        match(parser->current_token, parser);
         E(parser);
-        match(PUNCTUATION, parser);
+        match(parser->current_token, parser);
     } else {
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
     }
 
 }
@@ -278,7 +278,7 @@ D -> Da ’within’ D => ’within’
 void D(parser_T* parser){
     Da(parser);
     if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
         D(parser);
     } else {
         Da(parser);
@@ -293,7 +293,7 @@ void Da(parser_T* parser){
 
     Dr(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         Dr(parser);
     } else {
         Dr(parser);
@@ -306,7 +306,7 @@ Dr -> ’rec’ Db => ’rec’
 */
 void Dr(parser_T* parser){
     if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
         Db(parser);
     } else {
         Db(parser);
@@ -322,17 +322,17 @@ Db -> Vl ’=’ E => ’=’
 void Db(parser_T* parser){
     Vl(parser);
     if (parser->current_token->type == OPERATOR){
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         E(parser);
     } else if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
         Vb(parser);
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
         E(parser);
     } else {
-        match(PUNCTUATION, parser);
+        match(parser->current_token, parser);
         D(parser);
-        match(PUNCTUATION, parser);
+        match(parser->current_token, parser);
     }
 
 }
@@ -354,13 +354,13 @@ Vb -> ’<IDENTIFIER>’
 */
 void Vb(parser_T* parser){
     if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
+        match(parser->current_token, parser);
     } else if (parser->current_token->type == PUNCTUATION){
-        match(PUNCTUATION, parser);
+        match(parser->current_token, parser);
         Vl(parser);
-        match(PUNCTUATION, parser);
+        match(parser->current_token, parser);
     } else {
-        match(PUNCTUATION, parser);
+        match(parser->current_token, parser);
     }
 
 }
@@ -370,10 +370,10 @@ Vl -> ’<IDENTIFIER>’ list ’,’ => ’,’?;
 */
 void Vl(parser_T* parser){
     if (parser->current_token->type == IDENTIFIER){
-        match(IDENTIFIER, parser);
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
+        match(parser->current_token, parser);
     } else {
-        match(OPERATOR, parser);
+        match(parser->current_token, parser);
     }
 
 }
